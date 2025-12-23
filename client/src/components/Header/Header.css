@@ -1,0 +1,225 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    width: 100%;
+    padding: 0 40px 0 0;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-white, #fff);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 101;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+    margin-right: 12px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(0, 102, 255, 0.3));
+}
+
+
+.search-bar {
+    flex: 0 1 400px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 20px;
+    padding-right: 50px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-white, #fff);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--accent-blue, #0066ff);
+    box-shadow: 0 0 15px rgba(0, 68, 204, 0.2);
+}
+
+.search-input::placeholder {
+    color: var(--text-grey, #888);
+}
+
+.search-bar .icon-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: transparent;
+    border: none;
+    color: var(--text-white, #fff);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.search-bar .icon-btn:hover {
+    color: var(--accent-blue, #0066ff);
+    background: transparent;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-white, #fff);
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: #0066ffcd;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #0066ffcd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-left: 15px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.guest-icon {
+    stroke: #ffffff !important;
+    transition: stroke 0.3s ease;
+}
+
+.user-avatar:hover .guest-icon {
+    stroke: #000000 !important;
+}
+
+.admin-panel-btn {
+    background: rgba(0, 102, 255, 0.2);
+    color: #007aff;
+    padding: 8px 16px;
+    margin-left: 15px;
+    border-radius: 99px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 15px;
+    border: 1px solid rgba(0, 102, 255, 0.4);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.admin-panel-btn:hover {
+    background: #007aff;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 102, 255, 0.4);
+    border-color: #007aff;
+}
+
+
+@media screen and (max-width: 787px) {
+    .header {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: auto;
+        padding: 12px 10px 12px 10px;
+        gap: 10px;
+        align-content: center;
+    }
+
+    .logo {
+        order: 1;
+        font-size: 18px;
+        flex: 1;
+        margin: 0;
+    }
+
+    .logo-img {
+        height: 35px;
+        margin: 0;
+        margin-right: 8px;
+    }
+
+    .header-icons {
+        order: 2;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-bar {
+        order: 3;
+        width: 100%;
+        flex-basis: 100%;
+        margin: 0;
+    }
+
+    .admin-panel-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        margin-right: 5px;
+        white-space: nowrap;
+    }
+
+    .user-avatar {
+        margin-left: 5px;
+        margin-right: 10px;
+    }
+}

@@ -1,0 +1,342 @@
+.shoe-detail-page {
+    position: relative;
+    padding-top: 2rem;
+    min-height: 100vh;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.detail-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+
+.nav-header {
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 100;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem 0.5rem 0;
+}
+
+.back-arrow {
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover {
+    color: var(--accent-blue);
+    text-shadow: 0 0 15px rgba(0, 102, 255, 0.8);
+}
+
+.back-button:hover .back-arrow {
+    transform: translateX(-5px);
+}
+
+.shoe-main-content {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+    margin-bottom: 4rem;
+}
+
+.image-column {
+    flex: 1.1;
+    position: relative;
+}
+
+.image-column .image-wrapper {
+    position: relative !important;
+    border-radius: 20px;
+    padding: 4rem;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+.image-column .image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(10px);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.main-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6));
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: rotate(-12deg) scale(0.9);
+}
+
+.image-column .image-wrapper:hover .main-image {
+    transform: rotate(0deg) scale(1);
+}
+
+.info-column {
+    flex: 0.9;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.status-badge {
+    position: absolute !important;
+    top: 20px !important;
+    left: 20px !important;
+    z-index: 10;
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
+}
+
+.status-badge.upcoming {
+    background: rgba(0, 102, 255, 0.15);
+    border-color: var(--accent-blue);
+    color: #4dabff;
+}
+
+.brand-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-name {
+    color: var(--accent-blue);
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.top-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.action-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    background: rgba(0, 102, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 102, 255, 0.3);
+}
+
+.action-btn.liked {
+    border-color: #fe0633;
+    color: #fe0633;
+    background: rgba(254, 6, 51, 0.1);
+    box-shadow: 0 0 15px rgba(254, 6, 51, 0.3);
+}
+
+.model-name {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+    padding: 5px;
+    background: linear-gradient(to right, white, #a0a0a0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.price-block {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: -10px;
+}
+
+.current-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.release-info {
+    color: var(--text-grey);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-buy-now {
+    width: 100%;
+    padding: 1.2rem;
+    background: var(--text-white);
+    color: black;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    margin-top: 10px;
+}
+
+.btn-buy-now:hover {
+    background: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+}
+
+.tech-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.tech-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tech-item .label {
+    font-size: 0.75rem;
+    color: var(--text-grey);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tech-item .value {
+    color: var(--text-white);
+    font-weight: 600;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.shoe-description-full-width {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.shoe-description-full-width h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-white);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.shoe-description-full-width p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #cccccc;
+    text-align: justify;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 960px) {
+    .shoe-main-content {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .image-column .image-wrapper {
+        min-height: 350px;
+        padding: 2rem;
+    }
+
+    .model-name {
+        font-size: 2.2rem;
+    }
+
+    .price-block {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .tech-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .detail-container {
+        padding: 0 1.5rem 3rem;
+    }
+
+    .image-column .image-wrapper {
+        min-height: 280px;
+    }
+
+    .model-name {
+        font-size: 1.8rem;
+    }
+
+    .current-price {
+        font-size: 1.6rem;
+    }
+}
