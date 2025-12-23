@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 const db = require('./db');
 
 dotenv.config();
@@ -12,6 +13,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.get('/api/test', (req, res) => {
   res.json({ message: "Backend is connected!" });
@@ -401,6 +404,10 @@ app.get('/api/budget/:userId', authenticateToken, async (req, res) => {
     console.error('Budget Calc Error:', err);
     res.status(500).json({ error: 'Failed to calculate budget' });
   }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
 
 app.listen(PORT, () => {
