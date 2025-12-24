@@ -45,8 +45,10 @@
 .shoe-main-content {
     display: flex;
     gap: 4rem;
-    align-items: flex-start;
+    align-items: center; 
+    justify-content: center; 
     margin-bottom: 4rem;
+    width: 100%;
 }
 
 .image-column {

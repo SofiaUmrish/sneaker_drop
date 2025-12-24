@@ -138,3 +138,19 @@
     height: 20px;
     stroke-width: 2px;
 }
+
+
+@media screen and (max-width: 768px) {
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;      
+        justify-content: center; 
+        gap: 12px; 
+        width: 100%;   
+    }
+
+    .filter-group .dropdown {
+        flex: 0 1 auto;         
+        max-width: 100%;    
+    }
+}

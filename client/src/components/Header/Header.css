@@ -176,50 +176,53 @@
 
 @media screen and (max-width: 787px) {
     .header {
-        flex-wrap: wrap;
+        display: flex;
+        flex-direction: column;
+        align-items: center;   
         height: auto;
-        min-height: auto;
-        padding: 12px 10px 12px 10px;
-        gap: 10px;
-        align-content: center;
+        padding: 15px;
+        gap: 12px;       
     }
 
     .logo {
         order: 1;
         font-size: 18px;
+        padding: 0 !important;
         flex: 1;
         margin: 0;
     }
 
     .logo-img {
-        height: 35px;
+        height: 40px;
         margin: 0;
         margin-right: 8px;
     }
 
     .header-icons {
         order: 2;
-        margin-left: auto;
+        width: 100%;
         display: flex;
+        justify-content: center; 
         align-items: center;
+        margin-left: 0; 
+        gap: 15px;      
     }
 
     .search-bar {
         order: 3;
         width: 100%;
         flex-basis: 100%;
-        margin: 0;
+        margin-top: 5px;
     }
 
     .admin-panel-btn {
-        padding: 6px 10px;
+        padding: 8px 16px;
         font-size: 11px;
         margin-right: 5px;
         white-space: nowrap;
     }
 
     .user-avatar {
-        margin-left: 5px;
-        margin-right: 10px;
+        margin: 0;          
     }
 }
