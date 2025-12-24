@@ -113,6 +113,7 @@ app.put('/api/user/profile', authenticateToken, async (req, res) => {
 });
 
 
+
 // GET /api/shoes/soonest 
 app.get('/api/shoes/soonest', async (req, res) => {
   try {
@@ -295,8 +296,8 @@ app.post('/api/reminders', authenticateToken, async (req, res) => {
   }
 });
 
-// GET /api/reminders
-app.get('/api/reminders', authenticateToken, async (req, res) => {
+// GET /api/user/reminders
+app.get('/api/user/reminders', authenticateToken, async (req, res) => {
   try {
     const query = `
             SELECT r.id as reminder_id, s.* FROM reminders r
