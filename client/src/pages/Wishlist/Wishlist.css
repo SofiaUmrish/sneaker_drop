@@ -20,18 +20,22 @@
 }
 
 .print-btn {
-    padding: 0.5rem 1rem;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text-white);
-    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    background: #1db954; 
+    color: #000; 
+    border: none;
+    border-radius: 50px; 
     cursor: pointer;
-    transition: all 0.2s;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
 }
 
 .print-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--text-white);
+    background: #1ed760;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.5);
 }
 
 .budget-dashboard {

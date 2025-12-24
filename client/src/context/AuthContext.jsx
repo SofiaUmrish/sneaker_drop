@@ -80,8 +80,14 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         setToken(null);
+
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        
+        localStorage.removeItem('wishlist'); 
+        localStorage.removeItem('wishlistLimit');
+        
+        window.location.href = '/login'; 
     };
 
     const updateUserProfile = async (name, email) => {
