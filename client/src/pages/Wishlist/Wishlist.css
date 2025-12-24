@@ -503,6 +503,11 @@
 }
 
 @media (max-width: 600px) {
+
+    .wishlist-header {
+        justify-content: center;
+    }
+
     .wishlist-page {
         padding: 1rem;
     }

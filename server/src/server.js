@@ -113,45 +113,6 @@ app.put('/api/user/profile', authenticateToken, async (req, res) => {
 });
 
 
-// GET /api/shoes (search)
-app.get('/api/shoes', async (req, res) => {
-  try {
-    const { search } = req.query;
-
-    let query = `
-      SELECT s.*, b.name as brand_name, c.name as category_name
-      FROM shoes s
-      LEFT JOIN brands b ON s.brand_id = b.id
-      LEFT JOIN categories c ON s.category_id = c.id
-    `;
-
-    let params = [];
-
-    if (search) {
-      query += ` WHERE s.model_name ILIKE $1 OR b.name ILIKE $1`;
-      params.push(`%${search}%`);
-    }
-
-    query += ` ORDER BY s.release_date ASC`;
-
-    const result = await db.query(query, params);
-
-    const shoesWithStatus = result.rows.map(shoe => {
-      const isUpcoming = new Date(shoe.release_date) > new Date();
-      return {
-        ...shoe,
-        status: isUpcoming ? 'Upcoming' : 'Released'
-      };
-    });
-
-    res.json(shoesWithStatus);
-  } catch (err) {
-    console.error('Fetch Shoes Error:', err);
-    res.status(500).json({ error: 'Failed to fetch shoes' });
-  }
-});
-
-
 // GET /api/shoes/soonest 
 app.get('/api/shoes/soonest', async (req, res) => {
   try {
@@ -334,8 +295,8 @@ app.post('/api/reminders', authenticateToken, async (req, res) => {
   }
 });
 
-// GET /api/user/reminders
-app.get('/api/user/reminders', authenticateToken, async (req, res) => {
+// GET /api/reminders
+app.get('/api/reminders', authenticateToken, async (req, res) => {
   try {
     const query = `
             SELECT r.id as reminder_id, s.* FROM reminders r
@@ -380,6 +341,18 @@ app.post('/api/wishlist', authenticateToken, async (req, res) => {
   } catch (err) {
     console.error('Wishlist Update Error:', err);
     res.status(500).json({ error: 'Wishlist update failed' });
+  }
+});
+
+// GET /api/wishlist
+app.get('/api/wishlist', authenticateToken, async (req, res) => {
+  try {
+    const user_id = req.user.id;
+    const result = await db.query('SELECT shoe_id FROM wishlist WHERE user_id = $1', [user_id]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Fetch Wishlist Error:', err);
+    res.status(500).json({ error: 'Failed to fetch wishlist' });
   }
 });
 

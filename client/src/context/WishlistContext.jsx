@@ -1,72 +1,85 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
 import config from '../config';
 
 const WishlistContext = createContext();
 
-export const useWishlist = () => {
-    return useContext(WishlistContext);
-};
+export const useWishlist = () => useContext(WishlistContext);
 
 export const WishlistProvider = ({ children }) => {
-    const [wishlist, setWishlist] = useState([]);
-    const { user } = useAuth();
+    const [wishlist, setWishlist] = useState([]); 
+    const { user, token } = useAuth();
 
     useEffect(() => {
-        const saved = localStorage.getItem('wishlist');
-        if (saved) {
-            try {
-                setWishlist(JSON.parse(saved));
-            } catch (e) {
-                console.error("Failed to parse wishlist from local storage", e);
+        const fetchWishlist = async () => {
+            if (!user || !token) {
                 setWishlist([]);
+                return;
             }
-        }
-    }, []);
 
-    const toggleWishlist = async (id) => {
-        const exists = wishlist.includes(id);
-        let updated;
-        if (exists) {
-            updated = wishlist.filter(itemId => itemId !== id);
-        } else {
-            updated = [...wishlist, id];
-        }
-        setWishlist(updated);
-        localStorage.setItem('wishlist', JSON.stringify(updated));
-
-        if (user?.id) {
             try {
                 const response = await fetch(`${config.API_BASE_URL}/wishlist`, {
-                    method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify({ shoe_id: id }),
+                        'Authorization': `Bearer ${token}`
+                    }
                 });
 
-                if (!response.ok) {
-                    console.error('Wishlist sync failed');
+                if (response.ok) {
+                    const data = await response.json();
+                    const ids = data.map(item => item.shoe_id || item.id);
+                    setWishlist(ids);
                 }
             } catch (error) {
-                console.error('Wishlist sync error:', error);
+                console.error("Failed to fetch wishlist", error);
             }
+        };
+
+        fetchWishlist();
+    }, [user, token]);
+
+    const toggleWishlist = async (shoeId) => {
+        if (!user) {
+            alert("Please log in to save items to your wishlist!");
+            return;
+        }
+
+        const isAlreadyIn = wishlist.includes(shoeId);
+        
+        if (isAlreadyIn) {
+            setWishlist(prev => prev.filter(id => id !== shoeId));
+        } else {
+            setWishlist(prev => [...prev, shoeId]);
+        }
+
+        try {
+            const response = await fetch(`${config.API_BASE_URL}/wishlist`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ shoe_id: shoeId })
+            });
+
+            if (!response.ok) {
+                console.error("Error updating wishlist on server");
+                if (isAlreadyIn) {
+                    setWishlist(prev => [...prev, shoeId]);
+                } else {
+                    setWishlist(prev => prev.filter(id => id !== shoeId));
+                }
+            }
+        } catch (error) {
+            console.error("Network error:", error);
         }
     };
 
-    const isInWishlist = (id) => {
-        return wishlist.includes(id);
-    };
-
-    const value = {
-        wishlist,
-        toggleWishlist,
-        isInWishlist
+    const isInWishlist = (shoeId) => {
+        return wishlist.map(Number).includes(Number(shoeId));
     };
 
     return (
-        <WishlistContext.Provider value={value}>
+        <WishlistContext.Provider value={{ wishlist, toggleWishlist, isInWishlist }}>
             {children}
         </WishlistContext.Provider>
     );
