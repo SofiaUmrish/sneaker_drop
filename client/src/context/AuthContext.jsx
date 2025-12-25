@@ -16,8 +16,14 @@ export const AuthProvider = ({ children }) => {
         const savedUser = localStorage.getItem('user');
         const savedToken = localStorage.getItem('token');
         if (savedUser && savedToken) {
-            setUser(JSON.parse(savedUser));
-            setToken(savedToken);
+            try {
+                setUser(JSON.parse(savedUser));
+                setToken(savedToken);
+            } catch (e) {
+                console.error("Error parsing user data", e);
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+            }
         }
         setLoading(false);
     }, []);
@@ -37,7 +43,8 @@ export const AuthProvider = ({ children }) => {
                     id: data.id,
                     name: data.name,
                     role: data.role.toLowerCase() === 'admin' ? 'Admin' : 'User',
-                    email: email
+                    email: email,
+                    monthly_budget: data.monthly_budget 
                 };
 
                 setUser(loggedUser);
@@ -117,6 +124,15 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updateUser = (newUserData) => {
+        setUser((prevUser) => {
+            if (!prevUser) return null;
+            const updated = { ...prevUser, ...newUserData };
+            localStorage.setItem('user', JSON.stringify(updated));
+            return updated;
+        });
+    };
+
     const value = {
         user,
         token,
@@ -124,6 +140,7 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
         updateUserProfile,
+        updateUser,
         isAuthenticated: !!user,
         isAdmin: user?.role === 'Admin',
         loading

@@ -7,7 +7,7 @@ import './Wishlist.css';
 
 const Wishlist = () => {
     const { wishlist, toggleWishlist } = useWishlist();
-    const { user, token } = useAuth(); 
+    const { user, token, updateUser } = useAuth();
     const [wishlistItems, setWishlistItems] = useState([]);
     const [loading, setLoading] = useState(true);
     
@@ -78,6 +78,10 @@ const Wishlist = () => {
                 setMonthlyLimit(newLimit);
                 setTempLimit(newLimit.toString());
                 setIsEditingLimit(false);
+                
+                if (updateUser) {
+                     updateUser({ monthly_budget: newLimit });
+                }
             } else {
                 console.error("Failed to save budget limit");
             }
