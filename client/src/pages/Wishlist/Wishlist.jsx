@@ -7,16 +7,23 @@ import './Wishlist.css';
 
 const Wishlist = () => {
     const { wishlist, toggleWishlist } = useWishlist();
-    const { user } = useAuth();
+    const { user, token } = useAuth(); 
     const [wishlistItems, setWishlistItems] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [monthlyLimit, setMonthlyLimit] = useState(() => {
-        return parseFloat(localStorage.getItem('wishlistLimit')) || 1000;
-    });
+    
+    const [monthlyLimit, setMonthlyLimit] = useState(1000); 
+    
     const [isEditingLimit, setIsEditingLimit] = useState(false);
-    const [tempLimit, setTempLimit] = useState(monthlyLimit.toString());
+    const [tempLimit, setTempLimit] = useState('1000');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user && user.monthly_budget) {
+            setMonthlyLimit(user.monthly_budget);
+            setTempLimit(user.monthly_budget.toString());
+        }
+    }, [user]);
 
     useEffect(() => {
         const fetchAndFilter = async () => {
@@ -47,14 +54,36 @@ const Wishlist = () => {
     const progressPercent = Math.min((totalCost / monthlyLimit) * 100, 100);
     const isOverBudget = totalCost > monthlyLimit;
 
-    const handleLimitSave = () => {
+    const handleLimitSave = async () => {
         const parsed = parseFloat(tempLimit);
         const newLimit = (tempLimit === '' || isNaN(parsed)) ? 0 : parsed;
 
-        setMonthlyLimit(newLimit);
-        localStorage.setItem('wishlistLimit', newLimit);
-        setTempLimit(newLimit.toString());
-        setIsEditingLimit(false);
+        if (!user || !token) {
+            setMonthlyLimit(newLimit);
+            setIsEditingLimit(false);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${config.API_BASE_URL}/user/budget`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ limit: newLimit })
+            });
+
+            if (response.ok) {
+                setMonthlyLimit(newLimit);
+                setTempLimit(newLimit.toString());
+                setIsEditingLimit(false);
+            } else {
+                console.error("Failed to save budget limit");
+            }
+        } catch (error) {
+            console.error("Network error saving budget:", error);
+        }
     };
 
     if (loading) return <div className="wishlist-page">Loading your favorites...</div>;

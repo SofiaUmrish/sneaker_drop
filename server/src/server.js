@@ -56,6 +56,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+
 // POST /api/login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
@@ -81,11 +82,26 @@ app.post('/api/login', async (req, res) => {
       id: user.id,
       name: user.name,
       role: user.role,
+      monthly_budget: user.monthly_budget,
       token: token
     });
   } catch (err) {
     console.error('Login Error:', err);
     res.status(500).json({ error: 'Internal server error during login' });
+  }
+});
+
+// PUT /api/user/budget
+app.put('/api/user/budget', authenticateToken, async (req, res) => {
+  const { limit } = req.body;
+  const userId = req.user.id;
+
+  try {
+    await db.query('UPDATE users SET monthly_budget = $1 WHERE id = $2', [limit, userId]);
+    res.json({ message: 'Budget updated successfully', monthly_budget: limit });
+  } catch (err) {
+    console.error('Update Budget Error:', err);
+    res.status(500).json({ error: 'Failed to update budget' });
   }
 });
 
@@ -111,7 +127,6 @@ app.put('/api/user/profile', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to update profile.' });
   }
 });
-
 
 
 // GET /api/shoes/soonest 
